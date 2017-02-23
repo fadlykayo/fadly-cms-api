@@ -20,14 +20,92 @@
       </div>
     </nav>
 
-    <div class="controller">
-      <div class="row">
-        <h4 id="user-email"></h4>
+    <div id="root">
+      <div id="add-data" class="container" style="margin: 50px 100px 0px 100px;">
+        <div class="row">
+          <button data-target="modal1" class="btn blue darken-2">+ Add</button>
+        </div>
+        <div class="row">
+          <h5 style="margin: 30px 0px;">Search</h5>
+          <label for="date">Date:</label><input v-model="search" v-on:keyup="searchData()" style="width:200px; padding: 0px 10px;" id="date" type="datetime-local" class="validate"><label for="frequency">Frequency:</label><input v-model="search2" v-on:keyup="searchData()" style="width:200px; padding:0px 10px;" id="frequency" type="search" class="validate">
+        </div>
       </div>
+
+      <div class="container" style="margin: 0px 100px;">
+        <div class="row">
+          <table id="list-of-data" class="bordered">
+            <thead>
+              <tr>
+                <th data-field="date">Date</th>
+                <th data-field="frequency">Frequency</th>
+                <th data-field="action">Action</th>
+              </tr>
+            </thead>
+
+            <tbody v-for='data in datas'>
+              <tr>
+                <td>{{ data.date }}</td>
+                <td>{{ data.frequency }}</td>
+                <td><button class="btn green darken-3" data-target="modal3" v-on:click="getData(data._id)" type="button">Update</button> | <button class="btn red darken-4" data-target="modal2" v-on:click="getData(data._id)" type="button">Delete</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="modal1" class="modal modal-fixed-footer">
+        <div class="modal-content">
+          <h4 style="margin-left: 10px;">Add New Data</h4>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="date" v-model="add.date" type="datetime-local" class="validate" placeholder="Date" required="">
+            </div>
+            <div class="input-field col s12">
+              <input id="frequency" v-model="add.frequency" type="text" class="validate" placeholder="Frequency" required="">
+              <label for="frequency">Frequency</label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn modal-close blue darken-3" type="button" v-on:click="addData()">Create Data</button>
+          <button style="margin-right:15px;" class="btn modal-close red darken-4" type="button">Close</button>
+        </div>
+      </div>
+
+      <div id="modal2" class="modal">
+        <div class="modal-content">
+          <h4>Are you sure want to delete this post?</h4>
+          <p>Delete it will permanently remove it from the database.</p>
+        </div>
+        <div class="modal-footer">
+          <button v-on:click="deleteData(edit._id)" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+          <button class=" modal-action modal-close waves-effect waves-green btn-flat">Disagree</button>
+        </div>
+      </div>
+
+      <div id="modal3" class="modal modal-fixed-footer">
+        <div class="modal-content">
+          <h4 style="margin-left: 10px;">Edit Data</h4>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="date" v-model="edit.date" type="datetime-local" class="validate" placeholder="Date" required="">
+            </div>
+            <div class="input-field col s12">
+              <input id="frequency" v-model="edit.frequency" type="text" class="validate" placeholder="Frequency" required="">
+              <label for="frequency">Frequency</label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn modal-close blue darken-3" type="button" v-on:click="editData(edit._id)">Update Data</button>
+          <button style="margin-right:15px;" class="btn modal-close red darken-4" type="button">Close</button>
+        </div>
+      </div>
+    </div>
     </div>
     <script src="jquery-3.1.1.js"></script>
     <script src="materialize.js"></script>
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
-    <script src="/home.js"></script>
+    <script src="/datadate.js"></script>
   </body>
 </html>

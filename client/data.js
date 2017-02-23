@@ -38,7 +38,7 @@ var app = new Vue({
     searchData: function () {
       $.ajax({
         type: 'GET',
-        url: `http://localhost:3000/api/twatt/search?q=${app.search}&q2=${app.search2}`,
+        url: `http://localhost:3000/api/data/search?q=${app.search}&q2=${app.search2}`,
         success: function (resp) {
           app.datas = resp
         },
@@ -70,13 +70,11 @@ var app = new Vue({
     getData: function (id) {
       $.ajax({
         type: 'GET',
-        url: `http://localhost:3000/api/twatt/${id}`,
+        url: `http://localhost:3000/api/data/${id}`,
         success: function (resp) {
           app.edit._id = resp._id,
-          app.edit.content = resp.content,
-          app.edit.userid = resp.userid,
-          app.edit.postedby = resp.postedby,
-          app.edit.tag = resp.tag
+          app.edit.letter = resp.letter,
+          app.edit.frequency = resp.frequency
         },
         error: function () {
           console.log('GET getData request error')
@@ -84,10 +82,27 @@ var app = new Vue({
       })
     },
 
+    editData: function (id) {
+      $.ajax({
+        type: 'PUT',
+        url: `http://localhost:3000/api/data/${id}`,
+        data: {
+          letter: app.edit.letter,
+          frequency: app.edit.frequency
+        },
+        success: function (resp) {
+          app.loadDatas()
+        },
+        error: function () {
+          console.log('PUT editData request error')
+        }
+      })
+    },
+
     deleteData: function (id) {
       $.ajax({
         type: 'DELETE',
-        url: `http://localhost:3000/api/twatt/${id}`,
+        url: `http://localhost:3000/api/data/${id}`,
         success: function (resp) {
           app.loadDatas()
         },

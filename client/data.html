@@ -27,7 +27,7 @@
         </div>
         <div class="row">
           <h5 style="margin: 30px 0px;">Search</h5>
-          <label for="letter">Letter:</label><input style="width:200px;" id="letter" type="search" class="validate"><label for="frequency">Frequency:</label><input style="width:200px;" id="frequency" type="search" class="validate">
+          <label for="letter">Letter:</label><input v-model="search" v-on:keyup="searchData()" style="width:200px; padding: 0px 10px;" id="letter" type="search" class="validate"><label for="frequency">Frequency:</label><input v-model="search2" v-on:keyup="searchData()" style="width:200px; padding:0px 10px;" id="frequency" type="search" class="validate">
         </div>
       </div>
 
@@ -46,14 +46,14 @@
               <tr>
                 <td>{{ data.letter }}</td>
                 <td>{{ data.frequency }}</td>
-                <td><button class="btn green darken-3" data-target="modal3" v-on:click="" type="button">Update</button> | <button class="btn red darken-4" data-target="modal2" v-on:click="" type="button">Delete</button></td>
+                <td><button class="btn green darken-3" data-target="modal3" v-on:click="getData(data._id)" type="button">Update</button> | <button class="btn red darken-4" data-target="modal2" v-on:click="getData(data._id)" type="button">Delete</button></td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
 
-      <div id="modal1" class="modal modal-fixed-footer" style="height: 400px;">
+      <div id="modal1" class="modal modal-fixed-footer">
         <div class="modal-content">
           <h4 style="margin-left: 10px;">Add New Data</h4>
           <div class="row">
@@ -63,10 +63,9 @@
             </div>
             <div class="input-field col s12">
               <input id="frequency" v-model="add.frequency" type="text" class="validate" placeholder="Frequency" required="">
-              <label for="frequency">Letter</label>
+              <label for="frequency">Frequency</label>
             </div>
           </div>
-
         </div>
         <div class="modal-footer">
           <button class="btn modal-close blue darken-3" type="button" v-on:click="addData()">Create Data</button>
@@ -80,8 +79,28 @@
           <p>Delete it will permanently remove it from the database.</p>
         </div>
         <div class="modal-footer">
-          <button v-on:click="deleteTweet(edit._id)" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+          <button v-on:click="deleteData(edit._id)" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
           <button class=" modal-action modal-close waves-effect waves-green btn-flat">Disagree</button>
+        </div>
+      </div>
+
+      <div id="modal3" class="modal modal-fixed-footer">
+        <div class="modal-content">
+          <h4 style="margin-left: 10px;">Edit Data</h4>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="letter" v-model="edit.letter" type="text" class="validate" placeholder="Letter" required="">
+              <label for="letter">Letter</label>
+            </div>
+            <div class="input-field col s12">
+              <input id="frequency" v-model="edit.frequency" type="text" class="validate" placeholder="Frequency" required="">
+              <label for="frequency">Frequency</label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn modal-close blue darken-3" type="button" v-on:click="editData(edit._id)">Update Data</button>
+          <button style="margin-right:15px;" class="btn modal-close red darken-4" type="button">Close</button>
         </div>
       </div>
     </div>
