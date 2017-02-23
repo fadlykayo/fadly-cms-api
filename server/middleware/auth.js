@@ -1,5 +1,5 @@
 let config = require('../configs/config.json')
-
+let jwt = require('jsonwebtoken')
 module.exports = {
   verifyLogin: function (req, res, next) {
     if (req.headers.token == 'null') {

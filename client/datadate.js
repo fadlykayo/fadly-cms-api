@@ -25,6 +25,9 @@ var app = new Vue({
     loadDatas: function () {
       $.ajax({
         type: 'GET',
+        beforeSend: function (request) {
+          request.setRequestHeader('token', localStorage.getItem('token'))
+        },
         url: 'http://localhost:3000/api/datadate',
         success: function (resp) {
           app.datas = resp
