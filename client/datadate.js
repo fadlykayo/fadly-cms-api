@@ -114,4 +114,9 @@ var app = new Vue({
   }
 })
 
+$('.logout').click(function () {
+  window.localStorage.clear()
+  window.location.assign('http://localhost:8080/login.html')
+})
+
 app.loadDatas()
