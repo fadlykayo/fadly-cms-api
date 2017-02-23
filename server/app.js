@@ -13,35 +13,39 @@ var app = express()
 // ===== Passport =====
 var passport = require('passport')
 var LocalStrategy = require('passport-local')
+const hash = require('password-hash')
 
-// used to serialize the user for the session
+const User = require('./models/users')
+let jwt = require('jsonwebtoken')
+let config = require('./configs/config.json')
+
 passport.serializeUser(function (user, done) {
   done(null, user.id)
 })
 
-// used to deserialize the user
 passport.deserializeUser(function (id, done) {
   User.findById(id, function (err, user) {
     done(err, user)
   })
 })
 
-// passport.use(new LocalStrategy(
-//   function (username, password, done) {
-//     User.findOne({ username: username }, function (err, user) {
-//       if (err) { return done(err); }
-//       if (!user) { return done(null, false); }
-//       if (user) {
-//         if(hash.verify(user.password, password)) {
-//           var token = jwt.sign({username: user.username})
-//           res.send({token:token})
-//         }
-//       }
-//       if (!user.verifyPassword(password)) { return done(null, false); }
-//       return done(null, user)
-//     })
-//   }
-// ))
+passport.use(new LocalStrategy(
+  function (username, password, done) {
+    User.findOne({
+      username: username
+    }).then(function (data) {
+      if (hash.verify(password, data.password)) {
+        return done(null, data)
+      } else {
+        return done(null, false, {message: 'Authentication failed. Wrong password.'})
+      }
+    }).catch(function () {
+      return done(null, false, {message: 'Authentication failed. User not found.'})
+    })
+  }
+))
+
+app.use(passport.initialize())
 
 // ====== Cors ======
 let cors = require('cors')

@@ -61,19 +61,11 @@ module.exports = {
   },
 
   verifyUser: (req, res) => {
-    Users.findOne({
+    console.log(req.body)
+    let token = jwt.sign({username: req.body.username}, config.secret, {algorithm: 'HS256'}, {expiresIn: '1h'})
+    res.send({
+      token: token,
       username: req.body.username
-    }).then(function (data) {
-      if (hash.verify(req.body.password, data.password)) {
-        let token = jwt.sign({data}, config.secret, {algorithm: 'HS256'}, {expiresIn: '1h'})
-        res.send({
-          token: token
-        })
-      } else {
-        res.send({message: 'Authentication failed. Wrong password.'})
-      }
-    }).catch(function () {
-      res.send({message: 'Authentication failed. User not found.'})
     })
   }
 }
