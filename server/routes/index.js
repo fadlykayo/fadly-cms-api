@@ -2,6 +2,7 @@ var express = require('express')
 var router = express.Router()
 const userController = require('../controllers/users')
 const dataController = require('../controllers/datas')
+const dataDateController = require('../controllers/datadates')
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -13,22 +14,45 @@ router.get('/', function (req, res, next) {
 router.get('/api', function (req, res, next) {
   res.send({
     endpoints: [
-      '/api/twatt/search',
-      '/api/twatt',
-      '/api/twatt/:id'
+      '/api/data/search',
+      '/api/data',
+      '/api/data/:id',
+      '/api/datadate/search',
+      '/api/datadate',
+      '/api/datadate/:id'
     ]
   })
 })
 
-// router.get('/api/twatt/search', dataController.searchTweet)
-//
-// router.get('/api/twatt', dataController.getAllTweets)
-//
-// router.get('/api/twatt/:id', dataController.getTweetById)
-//
-// router.post('/api/twatt', dataController.createTweet)
-//
-// router.delete('/api/twatt/:id', dataController.deleteTweet)
+// Data
+
+router.get('/api/data/search', dataController.searchData)
+
+router.get('/api/data', dataController.getAllDatas)
+
+router.get('/api/data/:id', dataController.getDataById)
+
+router.post('/api/data', dataController.createData)
+
+router.put('/api/data/:id', dataController.updateData)
+
+router.delete('/api/data/:id', dataController.deleteData)
+
+router.get('/api/data/search', dataController.searchData)
+
+// Datadate
+
+router.get('/api/datadate/search', dataDateController.searchData)
+
+router.get('/api/datadate', dataDateController.getAllDatas)
+
+router.get('/api/datadate/:id', dataDateController.getDataById)
+
+router.post('/api/datadate', dataDateController.createData)
+
+router.put('/api/datadate/:id', dataDateController.updateData)
+
+router.delete('/api/datadate/:id', dataDateController.deleteData)
 
 // Users
 

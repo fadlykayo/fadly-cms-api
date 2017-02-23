@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const TweetSchema = new mongoose.Schema({
+const DataSchema = new mongoose.Schema({
   letter: String,
   frequency: String
 },
@@ -8,4 +8,4 @@ const TweetSchema = new mongoose.Schema({
     timestamps: true
   })
 
-module.exports = mongoose.model('Tweets', TweetSchema)
+module.exports = mongoose.model('Datas', DataSchema)
