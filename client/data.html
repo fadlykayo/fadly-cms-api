@@ -15,17 +15,80 @@
         <ul id="nav-mobile" class="right hide-on-med-and-down">
           <li><a style="color: #f0f4c3;" href="/data.html">Data</a></li>
           <li><a style="color: #f0f4c3;" href="/datadate.html">Data Date</a></li>
-          <li><button class="btn" style="color: #f0f4c3;">Logout</button></li>
+          <li><button class="btn red darken-4" style="color: #f0f4c3;">Logout</button></li>
         </ul>
       </div>
     </nav>
 
     <div id="root">
+      <div id="add-data" class="container" style="margin: 50px 100px 0px 100px;">
+        <div class="row">
+          <button data-target="modal1" class="btn blue darken-2">+ Add</button>
+        </div>
+        <div class="row">
+          <h5 style="margin: 30px 0px;">Search</h5>
+          <label for="letter">Letter:</label><input style="width:200px;" id="letter" type="search" class="validate"><label for="frequency">Frequency:</label><input style="width:200px;" id="frequency" type="search" class="validate">
+        </div>
+      </div>
 
+      <div class="container" style="margin: 0px 100px;">
+        <div class="row">
+          <table id="list-of-data" class="bordered">
+            <thead>
+              <tr>
+                <th data-field="letter">Letter</th>
+                <th data-field="frequency">Frequency</th>
+                <th data-field="action">Action</th>
+              </tr>
+            </thead>
+
+            <tbody v-for='data in datas'>
+              <tr>
+                <td>{{ data.letter }}</td>
+                <td>{{ data.frequency }}</td>
+                <td><button class="btn green darken-3" data-target="modal3" v-on:click="" type="button">Update</button> | <button class="btn red darken-4" data-target="modal2" v-on:click="" type="button">Delete</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="modal1" class="modal modal-fixed-footer" style="height: 400px;">
+        <div class="modal-content">
+          <h4 style="margin-left: 10px;">Add New Data</h4>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="letter" v-model="add.letter" type="text" class="validate" placeholder="Letter" required="">
+              <label for="letter">Letter</label>
+            </div>
+            <div class="input-field col s12">
+              <input id="frequency" v-model="add.frequency" type="text" class="validate" placeholder="Frequency" required="">
+              <label for="frequency">Letter</label>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button class="btn modal-close blue darken-3" type="button" v-on:click="addData()">Create Data</button>
+          <button style="margin-right:15px;" class="btn modal-close red darken-4" type="button">Close</button>
+        </div>
+      </div>
+
+      <div id="modal2" class="modal">
+        <div class="modal-content">
+          <h4>Are you sure want to delete this post?</h4>
+          <p>Delete it will permanently remove it from the database.</p>
+        </div>
+        <div class="modal-footer">
+          <button v-on:click="deleteTweet(edit._id)" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+          <button class=" modal-action modal-close waves-effect waves-green btn-flat">Disagree</button>
+        </div>
+      </div>
+    </div>
     </div>
     <script src="jquery-3.1.1.js"></script>
     <script src="materialize.js"></script>
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
-    <script src="/home.js"></script>
+    <script src="/data.js"></script>
   </body>
 </html>
