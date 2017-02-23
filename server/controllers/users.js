@@ -61,7 +61,6 @@ module.exports = {
   },
 
   verifyUser: (req, res) => {
-    console.log(req.body)
     let token = jwt.sign({username: req.body.username}, config.secret, {algorithm: 'HS256'}, {expiresIn: '1h'})
     res.send({
       token: token,

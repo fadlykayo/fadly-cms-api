@@ -1,5 +1,6 @@
 $(document).ready(function () {
-  let userEmail = localStorage.getItem('UserEmail')
+  let userName = localStorage.getItem('Username')
+  $('#user-info').text('Welcome, ' + userName + '!')
 })
 
 $('#login-form').on('submit', (e) => {
@@ -12,7 +13,7 @@ $('#login-form').on('submit', (e) => {
     data: {username: usernameVal, password: passwordVal},
     success: function (resp) {
       if (resp.token) {
-        localStorage.setItem('UserEmail', resp.email)
+        localStorage.setItem('Username', resp.username)
         localStorage.setItem('token', resp.token)
         window.location.assign('http://localhost:8080/home.html')
       }else {
@@ -21,7 +22,7 @@ $('#login-form').on('submit', (e) => {
     },
     error: function (err) {
       console.log('LOGIN Request Error')
-      window.location.assign('http://localhost:8080/index.html')
+      window.location.assign('http://localhost:8080/login.html')
     }
   })
 })
@@ -56,7 +57,7 @@ $('#register-form').on('submit', (e) => {
   })
 })
 
-$('#logout').click(function () {
+$('.logout').click(function () {
   window.localStorage.clear()
-  window.location.assign('http://localhost:8080/index.html')
+  window.location.assign('http://localhost:8080/login.html')
 })

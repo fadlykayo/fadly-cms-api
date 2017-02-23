@@ -13,9 +13,10 @@
       <div class="nav-wrapper">
         <a href="/index.html" style="color: #f0f4c3;" class="brand-logo">CMS API</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a style="color: #f0f4c3;" href="/home.html">Home</a></li>
           <li><a style="color: #f0f4c3;" href="/data.html">Data</a></li>
           <li><a style="color: #f0f4c3;" href="/datadate.html">Data Date</a></li>
-          <li><button class="btn red darken-4" style="color: #f0f4c3;">Logout</button></li>
+          <li><button class="logout btn red darken-4" style="color: #f0f4c3;">Logout</button></li>
         </ul>
       </div>
     </nav>
@@ -107,5 +108,10 @@
     <script src="materialize.js"></script>
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="/datadate.js"></script>
+    <script type="text/javascript">
+      if (!localStorage.getItem('Username')) {
+        window.location.assign('http://localhost:8080/login.html')
+      }
+    </script>
   </body>
 </html>

@@ -55,7 +55,7 @@ router.get('/api', function (req, res, next) {
 
 router.get('/api/data/search', dataController.searchData)
 
-router.get('/api/data', middleware.verifyLogin, dataController.getAllDatas)
+router.get('/api/data', dataController.getAllDatas)
 
 router.get('/api/data/:id', dataController.getDataById)
 
@@ -71,7 +71,7 @@ router.get('/api/data/search', dataController.searchData)
 
 router.get('/api/datadate/search', dataDateController.searchData)
 
-router.get('/api/datadate', middleware.verifyLogin, dataDateController.getAllDatas)
+router.get('/api/datadate', dataDateController.getAllDatas)
 
 router.get('/api/datadate/:id', dataDateController.getDataById)
 
