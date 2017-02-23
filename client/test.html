@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Twitter Mini</title>
+    <link rel="stylesheet" href="materialize.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="index.css" type="text/css" rel="stylesheet">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+  </head>
+  <body>
+    <div id="root">
+      <nav class="navbar">
+        <div class="nav-wrapper">
+          <a href="/index.html" style="color: #f0f4c3;" class="brand-logo">Mini Twitter</a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="#"><label class="label-icon" for="search"><i class="material-icons">search</i></label></a></li>
+            <li><input id="search" v-model="search" v-on:keyup="searchTweet()" type="search" required></li>
+            <li><a href="#"><label class="label-icon" for="search2"><i class="material-icons">search</i></label></a></li>
+            <li><input id="search2" v-model="search2" v-on:keyup="searchTweet()" type="search" required></li>
+            <li><a style="color: #f0f4c3;" href="#">Home</a></li>
+            <li><a style="color: #f0f4c3;" href="#">Profile</a></li>
+            <li><a style="color: #f0f4c3;" href="#">Setting</a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <div id="div-add-tweet" class="container" style="margin: 50px 100px;">
+        <button data-target="modal1" class="btn blue darken-2">+ Tweet</button>
+      </div>
+
+      <div id="list-of-tweets" class="container">
+        <div class="col xs12" v-for='tweet in tweets'>
+          <div class="card horizontal">
+            <div class="col xs2 card-image">
+              <img src="http://placehold.it/250x300">
+            </div>
+            <div class="col xs10 card-stacked">
+              <div class="card-content">
+                <ul>
+                  <li style="font-size: 30px; font-weight: bold;">{{ tweet.postedby }}</li>
+                  <br>
+                  <li style="font-size: 20px;">{{ tweet.content }}</li>
+                  <br>
+                  <li style="font-size: 12px; margin-top:40px;">Posted At: {{ tweet.createdAt }}</li>
+                </ul>
+              </div>
+              <div class="card-action">
+                <button class="btn red darken-4" data-target="modal2" v-on:click="getTweet(tweet._id)" type="button">Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="modal1" class="modal modal-fixed-footer" style="height: 400px;">
+        <div class="modal-content">
+          <h6>Compose new Tweet</h6>
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea style="height: 170px;" id="content" class="materialize-textarea" v-model="add.content" type="text" class="validate" placeholder="Say something..." required=""></textarea>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button class="btn modal-close blue darken-3" type="button" v-on:click="addTweet()">Create Tweet</button>
+          <button style="margin-right:15px;" class="btn modal-close red darken-4" type="button">Close</button>
+        </div>
+      </div>
+
+      <div id="modal2" class="modal">
+        <div class="modal-content">
+          <h4>Are you sure want to delete this post?</h4>
+          <p>Delete it will permanently remove it from the database.</p>
+        </div>
+        <div class="modal-footer">
+          <button v-on:click="deleteTweet(edit._id)" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+          <button class=" modal-action modal-close waves-effect waves-green btn-flat">Disagree</button>
+        </div>
+      </div>
+
+    </div>
+    <script src="jquery-3.1.1.js"></script>
+    <script src="materialize.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+      $('.modal').modal();
+      $(".button-collapse").sideNav();
+      $('#textarea1').val('New Tweet');
+      $('#textarea1').trigger('autoresize');
+    });
+
+    var app = new Vue({
+      el: '#root',
+      data: {
+        add: {
+          content: '',
+          userid: '',
+          postedby: '',
+          tag: ''
+        },
+        edit: {
+          _id: '',
+          content: '',
+          userid: '',
+          postedby: '',
+          tag: ''
+        },
+        search: '',
+        search2: '',
+        tweets: []
+      },
+      methods: {
+        manipulateContent: function (content) {
+          return content.match(/#\w+/g)
+        },
+        loadTweets: function () {
+          $.ajax({
+            type: 'GET',
+            url: 'http://localhost:3000/api/twatt',
+            success: function(resp) {
+              app.tweets = resp
+            },
+            error: function() {
+              console.log('GET loadTweets request error');
+            }
+          });
+        },
+
+        searchTweet: function () {
+          $.ajax({
+            type: 'GET',
+            url: `http://localhost:3000/api/twatt/search?q=${app.search}&q2=${app.search2}`,
+            success: function(resp) {
+              app.tweets = resp
+            },
+            error: function() {
+              console.log('GET loadTweets request error');
+            }
+          });
+        },
+
+        addTweet: function () {
+          $.ajax({
+            type: 'POST',
+            url: 'http://localhost:3000/api/twatt',
+            data: {
+              content: app.add.content,
+              userid: '58ad60072454f718d66cb760',
+              postedby: 'fadly',
+              tag: JSON.stringify(app.manipulateContent(app.add.content))
+            },
+            success: function(resp) {
+              app.add.content = "",
+              app.tweets.push(resp)
+            },
+            error: function() {
+              console.log('POST addTweet request error');
+            }
+          });
+        },
+
+        getTweet: function (id) {
+          $.ajax({
+            type: 'GET',
+            url: `http://localhost:3000/api/twatt/${id}`,
+            success: function(resp) {
+              app.edit._id = resp._id,
+              app.edit.content = resp.content,
+              app.edit.userid = resp.userid,
+              app.edit.postedby = resp.postedby,
+              app.edit.tag = resp.tag
+            },
+            error: function() {
+              console.log('GET getTweet request error');
+            }
+          });
+        },
+
+        deleteTweet: function (id) {
+          $.ajax({
+            type: 'DELETE',
+            url: `http://localhost:3000/api/twatt/${id}`,
+            success: function(resp) {
+              app.loadTweets()
+            },
+            error: function() {
+              console.log('DELETE deleteTweet request error');
+            }
+          })
+        }
+      }
+    })
+    app.loadTweets()
+    </script>
+  </body>
+</html>
