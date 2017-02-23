@@ -28,7 +28,7 @@ module.exports = {
     }).catch(function (err) {
       res.send(err)
     })
-  }
+  },
 
   searchData: (req, res) => {
     Datas.find({

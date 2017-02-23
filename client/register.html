@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="materialize.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="index.css" type="text/css" rel="stylesheet">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <title>CMS API</title>
+  </head>
+  <body>
+
+    <div class="container">
+      <div class="row">
+        <h3 style="color: #006666;">Sign Up</h3>
+        <br>
+        <p id="error-message"></p>
+        <form id="register-form" method="post">
+          <div class="form-group">
+            <label for="username_reg">Username:</label>
+            <input type="text" class="form-control" name="username_reg" id="username_reg" value="" placeholder="Username" required="true">
+          </div>
+          <div class="form-group">
+            <label for="password_reg">Password:</label>
+            <input type="password" class="form-control" name="password_reg" id="password_reg" value="" placeholder="Your password" required="true">
+          </div>
+          <div class="form-group">
+            <label for="email_reg">Email:</label>
+            <input type="email" class="form-control" name="email_reg" id="email_reg" value="" placeholder="Email" required="true">
+          </div>
+          <label>By clicking continue, I agree to the this's blog Terms and Privacy</label>
+          <br>
+          <br>
+          <button type="submit" class="btn teal darken-3">Continue</button>
+        </form>
+        <br>
+        <hr>
+        <label>Already have an account?</label>
+        <a href="/login.html">Sign In</a>
+      </div>
+    </div>
+
+    <script src="jquery-3.1.1.js"></script>
+    <script src="materialize.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  </body>
+</html>

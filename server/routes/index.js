@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router()
 const userController = require('../controllers/users')
-const tweetController = require('../controllers/tweets')
+const dataController = require('../controllers/datas')
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -20,15 +20,15 @@ router.get('/api', function (req, res, next) {
   })
 })
 
-router.get('/api/twatt/search', tweetController.searchTweet)
-
-router.get('/api/twatt', tweetController.getAllTweets)
-
-router.get('/api/twatt/:id', tweetController.getTweetById)
-
-router.post('/api/twatt', tweetController.createTweet)
-
-router.delete('/api/twatt/:id', tweetController.deleteTweet)
+// router.get('/api/twatt/search', dataController.searchTweet)
+//
+// router.get('/api/twatt', dataController.getAllTweets)
+//
+// router.get('/api/twatt/:id', dataController.getTweetById)
+//
+// router.post('/api/twatt', dataController.createTweet)
+//
+// router.delete('/api/twatt/:id', dataController.deleteTweet)
 
 // Users
 
